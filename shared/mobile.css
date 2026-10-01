@@ -12,3 +12,7 @@ html{touch-action:manipulation}.touch-controls{position:fixed;inset:0;pointer-ev
 .local-player-controls[data-player="1"] button{border-color:#83e4db;background:#204f5bea}
 .touch-player-label{position:absolute;left:12px;bottom:calc(26px + var(--pad-size)*3);background:#122c3cda;border-radius:8px;padding:5px 9px;color:white;font:700 12px system-ui}
 @media(max-width:600px){.local-player-controls{--pad-size:34px}.local-player-controls .touch-actions{bottom:110px;right:8px}.local-player-controls .touch-pad{left:8px;bottom:14px}.touch-player-label{bottom:235px;font-size:11px}}
+
+body:has([aria-label^="潮影双行"]) .local-player-controls[data-player="0"] button{border-color:#77cfff;background:#204f6bea}
+body:has([aria-label^="潮影双行"]) .local-player-controls[data-player="1"] button{border-color:#ffc27c;background:#63482bea}
+@media(max-width:900px){body:has([aria-label^="潮影双行"]) #region{max-width:60vw;overflow:hidden;text-overflow:ellipsis}body:has([aria-label^="潮影双行"]) #status{bottom:180px;max-width:88vw;width:max-content}}

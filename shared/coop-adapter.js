@@ -30,7 +30,7 @@ function localTouchInput(player,action,down){
  held[code]=down;
 }
 for(let player=0;player<2;player++)new TouchControls({
- player,label:roomKind==='star'?(player?'玩家2 · 小梅':'玩家1 · 科迪'):(player?'玩家2 · 烁':'玩家1 · 岚'),
+ player,label:roomKind==='star'?(player?'玩家2 · 小梅':'玩家1 · 科迪'):(player?'玩家2 · 岚':'玩家1 · 烁'),
  actions:roomKind==='star'?[['跳跃','jump'],['准备','ready'],['使用','fire']]:[['跳跃','jump'],['切换','switch'],['使用','use'],['转左','camL'],['转右','camR']],
  isPlaying:()=>!net.active&&net.lobby.hidden&&mode==='play'&&!game.finished,
  change:(action,down)=>localTouchInput(player,action,down)
