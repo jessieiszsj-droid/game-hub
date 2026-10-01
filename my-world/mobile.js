@@ -1,0 +1,2 @@
+'use strict';
+(()=>{const mapping={up:'ArrowUp',down:'ArrowDown',left:'ArrowLeft',right:'ArrowRight',jump:' ',attack:'a',place:'f',interact:'e',craft:'c',bag:'b'};new TouchControls({actions:[['跳跃','jump'],['挖 / 打','attack'],['放置','place'],['互动','interact'],['制作','craft'],['背包','bag']],isPlaying:()=>!panelOpen,change:(action,down)=>document.dispatchEvent(new KeyboardEvent(down?'keydown':'keyup',{key:mapping[action],bubbles:true,cancelable:true})),look:(dx,dy)=>{yaw-=dx*.004;pitch=Math.max(-1.48,Math.min(1.48,pitch-dy*.004));}});})();
