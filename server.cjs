@@ -2,7 +2,7 @@
 const http=require('node:http'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {WebSocketServer}=require('ws');
 const tide=require('./tide-shadow/engine.js'),star=require('./it-takes-two/logic.js');
-const games={tide:{Engine:tide.Adventure,keys:tide.keys,count:8},star:{Engine:star.Coop,keys:star.controls,count:6}};
+const games={tide:{Engine:tide.Adventure,keys:tide.keys,count:tide.stages.length},star:{Engine:star.Coop,keys:star.controls,count:6}};
 const root=__dirname,rooms=new Map();
 const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.webp':'image/webp','.ico':'image/x-icon'};
 const server=http.createServer((req,res)=>{let url;try{url=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400).end();return;}
@@ -30,7 +30,7 @@ wss.on('connection',(ws,req)=>{const origin=req.headers.origin;if(origin){try{if
   if(!room||room.slots[ws.role]!==slot)return;
   if(m.type==='input'){const allowed=new Set(Object.values(games[room.kind].keys[ws.role]));const next={};for(const k of Array.isArray(m.keys)?m.keys.slice(0,12):[])if(allowed.has(k)){next[k]=true;if(!slot.held[k])slot.pressed[k]=true;}slot.held=next;slot.lastInput=Date.now();}
   if(m.type==='pause'){room.paused=!!m.value;room.slots.forEach(s=>{if(s){s.held={};s.pressed={};}});publish(room);}
-  if(m.type==='level'&&Number.isInteger(m.level)){const n=m.level;if(n===room.game.level||n===0||(room.game.finished&&n===room.game.level+1&&n<games[room.kind].count)){room.events=[];room.game.load(n);room.revision++;room.paused=false;room.slots.forEach(s=>{if(s){s.held={};s.pressed={};}});publish(room);}}
+  if(m.type==='level'&&Number.isInteger(m.level)){const n=m.level;if(n===room.game.level||n===0||(room.kind==='tide'&&n===8)||(room.game.finished&&n===room.game.level+1&&n<games[room.kind].count)){room.events=[];room.game.load(n);room.revision++;room.paused=false;room.slots.forEach(s=>{if(s){s.held={};s.pressed={};}});publish(room);}}
  });
  ws.on('close',()=>{if(slot&&slot.ws===ws){slot.ws=null;slot.held={};slot.pressed={};if(room){room.lastActive=Date.now();publish(room);}}});ws.on('error',()=>{});
 });
